@@ -11,14 +11,10 @@ public class RunTests {
 		private int counter = 0;
 		
 		public synchronized void loop(int iterations, boolean set, boolean read) {
-			int counter = 0;
-			while (!(counter == iterations)) {
-				counter++;
-				try {
-					Thread.sleep(0, 1);
-				} catch (InterruptedException e) {
-					return;
-				}
+
+			int cc = 0;
+			while (cc != iterations) {
+				cc++;
 			}
 
 			if (set) {
@@ -32,34 +28,45 @@ public class RunTests {
 		}
 	}
 	
-	
-	public void iterationTest() throws InterruptedException {
+	public void rollbackTest(int THREAD_NO, int read_write_share) throws InterruptedException {
 		
 		sharedData sd = new sharedData();
-		
-		threads = new  Thread[2];
-		threads[0] = new Thread(new ConcurrencyTestThread(sd, 2000, false, false));
-		threads[1] = new Thread(new ConcurrencyTestThread(sd, 2000, false, true));
-		
-		threads[0].start();
-		threads[1].start();
-		
-		threads[1].join();
-		threads[0].join();
+
+		for (int i = 0; i < 100; i++) {
+			long startTime = System.currentTimeMillis();
+
+			threads = new Thread[THREAD_NO];
+
+			for (int j = 0; j < threads.length; j++) {
+				boolean read = false;
+				boolean write = false;
+
+				if (read_write_share != 0 && j % read_write_share == 0) {
+					write = true; }
+				else if (read_write_share != 0 && j % read_write_share == 1)
+					read = true;
+
+				threads[j] = new Thread(new ConcurrencyTestThread(sd, 10000000,
+						write, read));
+				threads[j].start();
+			}
+
+			for (int j = 0; j < threads.length; j++) {
+				threads[j].join();
+			}
+
+			long endTime = System.currentTimeMillis();
+			System.out.println("Step execution time rollbackTest("+ THREAD_NO +" "+ read_write_share +"): "
+					+ (endTime - startTime) + "ms");
+		}
 	}
-	
 	
 	
 	public static void main(String[] args) throws InterruptedException {
 		
 		RunTests tests = new RunTests();
-		
-		long startTime = System.currentTimeMillis();
-		tests.iterationTest();
-		long endTime = System.currentTimeMillis();
-		System.out.println("Total execution time of iterationTest(): " + (endTime-startTime) + "ms");
-
-
+		tests.rollbackTest(30, 0);
+		tests.rollbackTest(30, 5);
 	}
 
 }
