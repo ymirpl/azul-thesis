@@ -1,0 +1,5 @@
+Thread execution time simpleRollbackTest(300 0 false): 466ms
+Thread execution time simpleRollbackTest(300 0 true): 72457ms
+Thread execution time simpleRollbackTest(300 0 false): 322ms
+Thread execution time simpleRollbackTest(300 10 true): 71839ms
+Thread execution time simpleRollbackTest(300 0 true): 367ms

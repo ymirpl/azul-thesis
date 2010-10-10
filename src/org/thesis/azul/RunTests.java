@@ -57,7 +57,7 @@ public class RunTests {
 			if (write_share != 0 && j % write_share == 0) 
 				write = true;
 
-			threads[j] = new Thread(new ConcurrencyTestThread(sd, 1000000,
+			threads[j] = new Thread(new ConcurrencyTestThread(sd, 100000,
 					write, read, true));
 			threads[j].start();
 		}
@@ -88,7 +88,7 @@ public class RunTests {
 			} else if (read_write_share != 0 && j % read_write_share == 1)
 				read = true;
 
-			threads[j] = new Thread(new ConcurrencyTestThread(sd, 1000000, write,
+			threads[j] = new Thread(new ConcurrencyTestThread(sd, 100000, write,
 					read, false));
 			threads[j].start();
 		}
@@ -103,23 +103,63 @@ public class RunTests {
 
 	}
 	
+	public long octTestMixed() throws InterruptedException {
+		long startTime = System.currentTimeMillis();
+		
+		simpleRollbackTest(300, 0, false);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, false);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 2, true);
+		simpleRollbackTest(300, 2, true);
+		simpleRollbackTest(300, 2, true);
+		simpleRollbackTest(300, 10, true);
+		simpleRollbackTest(300, 100, true);
+		simpleRollbackTest(300, 50, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, true);
+		simpleRollbackTest(300, 0, false);
+		rollbackTest(300, 0 );
+		rollbackTest(300, 0 );
+		rollbackTest(300, 0 );
+		rollbackTest(300, 0 );
+		rollbackTest(300, 0 );
+		rollbackTest(300, 10 );
+		rollbackTest(300, 10 );
+		rollbackTest(300, 100 );
+		rollbackTest(300, 10 );
+		rollbackTest(300, 0 );
+		rollbackTest(300, 0 );
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println("Total execution time OCT mixed test: " + (endTime - startTime) + "ms");
+		return endTime - startTime;
+	}
+	
 	public long octTestEasier() throws InterruptedException {
 		long startTime = System.currentTimeMillis();
 
 		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, true);
+		simpleRollbackTest(182, 0, false);
+		simpleRollbackTest(182, 0, false);
+		simpleRollbackTest(182, 0, false);
 		simpleRollbackTest(182, 0, false);
 		simpleRollbackTest(182, 0, true);
 		simpleRollbackTest(182, 0, true);
 		simpleRollbackTest(182, 0, true);
+		simpleRollbackTest(182, 0, false);
 		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 10, true);
+		simpleRollbackTest(182, 0, true);
 		simpleRollbackTest(182, 100, true);
 		simpleRollbackTest(182, 50, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, true);
+		simpleRollbackTest(182, 10, true);
+		simpleRollbackTest(182, 2, true);
+		simpleRollbackTest(182, 2, true);
+		simpleRollbackTest(182, 2, true);
 		simpleRollbackTest(182, 0, true);
 		simpleRollbackTest(182, 0, true);
 		simpleRollbackTest(182, 0, false);
@@ -131,12 +171,18 @@ public class RunTests {
 	
 	public long octTestHarder() throws InterruptedException {
 		long startTime = System.currentTimeMillis();
-		
+
 		rollbackTest(182, 0);
 		rollbackTest(182, 0);
 		rollbackTest(182, 0);
 		rollbackTest(182, 0);
 		rollbackTest(182, 0);
+		rollbackTest(182, 10);
+		rollbackTest(182, 0);
+		rollbackTest(182, 0);
+		rollbackTest(182, 0);
+		rollbackTest(182, 0);
+		rollbackTest(182, 100);
 		rollbackTest(182, 10);
 		rollbackTest(182, 10);
 		rollbackTest(182, 100);
@@ -192,6 +238,7 @@ public class RunTests {
 		
 		double shard = (max-min) / THREAD_NO; 
 		
+		
 		threads = new Thread[THREAD_NO];
 		
 		long startTime = System.currentTimeMillis();
@@ -218,7 +265,15 @@ public class RunTests {
 		
 		int runs = 3;
 		
-		long sum = 0;
+    	long sum = 0;
+    	
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestMixed();
+		}
+		System.out.println("Mean time of octMixed" + runs + ": " + sum/runs + "\n\n\n");
+
+		sum = 0;
 		for (int i = 0; i < runs; i++) {
 			System.out.println("Test run " + i);
 			sum += tests.octTestEasier();
@@ -241,7 +296,7 @@ public class RunTests {
 		
 		
 		tests.divideAndConquer(2, 0.0001);
-		tests.divideAndConquer(128, 0.0001);
+		tests.divideAndConquer(123, 0.0001);
 		
 		
 		

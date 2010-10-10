@@ -1,0 +1,42 @@
+Total execution time simpleRollbackTest(300 0 false): 682ms
+Total execution time simpleRollbackTest(300 0 true): 66314ms
+Total execution time simpleRollbackTest(300 0 false): 328ms
+Total execution time simpleRollbackTest(300 0 true): 368ms
+Total execution time simpleRollbackTest(300 0 true): 335ms
+Total execution time simpleRollbackTest(300 0 true): 345ms
+Total execution time simpleRollbackTest(300 2 true): 105456ms
+Total execution time simpleRollbackTest(300 2 true): 61986ms
+Total execution time simpleRollbackTest(300 2 true): 66584ms
+Total execution time simpleRollbackTest(300 10 true): 343ms
+Total execution time simpleRollbackTest(300 100 true): 356ms
+Total execution time simpleRollbackTest(300 50 true): 343ms
+Total execution time simpleRollbackTest(300 0 true): 337ms
+Total execution time simpleRollbackTest(300 0 true): 347ms
+Total execution time simpleRollbackTest(300 0 true): 348ms
+Total execution time simpleRollbackTest(300 0 true): 333ms
+Total execution time simpleRollbackTest(300 0 false): 326ms
+Thread execution time rollbackTest(300 0 ): 55880ms
+Thread execution time rollbackTest(300 0 ): 360ms
+Thread execution time rollbackTest(300 0 ): 351ms
+Thread execution time rollbackTest(300 0 ): 350ms
+Thread execution time rollbackTest(300 0 ): 329ms
+Thread execution time rollbackTest(300 10 ): 27147ms
+Thread execution time rollbackTest(300 10 ): 54910ms
+Thread execution time rollbackTest(300 100 ): 26513ms
+Thread execution time rollbackTest(300 10 ): 27127ms
+Thread execution time rollbackTest(300 0 ): 26386ms
+Thread execution time rollbackTest(300 0 ): 27673ms
+
+
+
+
+Total execution time simpleRollbackTest(182 0 false): 1029ms
+Total execution time simpleRollbackTest(182 0 false): 250ms
+Total execution time simpleRollbackTest(182 0 true): 413308ms
+Total execution time simpleRollbackTest(182 0 false): 194ms
+Total execution time simpleRollbackTest(182 2 true): 751202ms
+Total execution time simpleRollbackTest(182 0 true): 402018ms
+Total execution time simpleRollbackTest(182 0 true): 404527ms
+Total execution time simpleRollbackTest(182 0 true): 380564ms
+Total execution time simpleRollbackTest(182 100 true): 429820ms
+

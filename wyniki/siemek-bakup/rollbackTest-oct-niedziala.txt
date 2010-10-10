@@ -1,0 +1,5 @@
+Thread execution time simpleRollbackTest(3 0 false): 54ms
+Thread execution time simpleRollbackTest(3 0 true): 5956ms
+Thread execution time simpleRollbackTest(3 0 false): 3ms
+Thread execution time simpleRollbackTest(3 10 true): 7900ms
+Thread execution time simpleRollbackTest(3 0 true): 5939ms
