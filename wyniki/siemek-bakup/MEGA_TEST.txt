@@ -1,3 +1,5 @@
+ITERATIONS: 100000
+
 Test run 0
 Total execution time simpleRollbackTest(182 0 false): 1210ms
 Total execution time simpleRollbackTest(182 0 false): 232ms

@@ -9,39 +9,51 @@ public class ConcurrencyTestWorker implements Runnable {
 	private double stop = 0;
 	private double step = 0;
 	private sharedData bestSolution;
+	private boolean sync = false;
 
 	public ConcurrencyTestWorker(long iterations) {
 		this.iterations = iterations;
 	}
 
 	public ConcurrencyTestWorker(sharedData sd, double start, double stop,
-			double step) {
+			double step, boolean sync) {
 		this.stop = stop;
 		this.start = start;
 		this.step = step;
-		bestSolution = sd;
+		this.bestSolution = sd;
+		this.sync = sync;
 
 	}
 
-	private double himmelblau(double x, double y) {
-		return (Math.pow((x * x + y - 11), 2) + Math.pow((x + y * y - 7), 2));
+	private double function(double x) {
+		return (x*Math.log10(Math.abs(x)+ 0.0001) + Math.max(-1*Math.pow(x+1, 3), 0));
 	}
 
 	public void run() {
 
 		if (step == 0) { // simple iterative worker
 			for (int i = 0; i < iterations; i++) {
-				himmelblau(2, 2); // pretend some computations
+				function(2); // pretend some computations
 			}
 			return;
 
 		} else { // brute force minimum finder
+			double solution = Double.MAX_VALUE;
+			double solX = 0;
 			for (double x = start; x < stop; x += step) {
-				for (double y = start; y < stop; y += step) {
-					double sol = himmelblau(x, y);
-					bestSolution.trySolution(sol, x, y);
+				double out = function(x);
+				if (this.sync)
+					bestSolution.trySolution(out, x);
+				else {
+					if (out < solution) {
+						solution = out;
+						solX = x;
+					}
 				}
+
 			}
+			if (!sync)
+				bestSolution.trySolution(solution, solX);
 		}
 	}
 }

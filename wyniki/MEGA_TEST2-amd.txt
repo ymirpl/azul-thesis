@@ -1,0 +1,236 @@
+ITERATIONS: 100000
+
+Test run 0
+Total execution time simpleRollbackTest(300 0 false): 106ms
+Total execution time simpleRollbackTest(300 0 true): 1056ms
+Total execution time simpleRollbackTest(300 0 false): 104ms
+Total execution time simpleRollbackTest(300 0 true): 1235ms
+Total execution time simpleRollbackTest(300 0 true): 1266ms
+Total execution time simpleRollbackTest(300 0 true): 1223ms
+Total execution time simpleRollbackTest(300 2 true): 1748ms
+Total execution time simpleRollbackTest(300 2 true): 1643ms
+Total execution time simpleRollbackTest(300 2 true): 1813ms
+Total execution time simpleRollbackTest(300 10 true): 1338ms
+Total execution time simpleRollbackTest(300 100 true): 1425ms
+Total execution time simpleRollbackTest(300 50 true): 1221ms
+Total execution time simpleRollbackTest(300 0 true): 1304ms
+Total execution time simpleRollbackTest(300 0 true): 1214ms
+Total execution time simpleRollbackTest(300 0 true): 1114ms
+Total execution time simpleRollbackTest(300 0 true): 1452ms
+Total execution time simpleRollbackTest(300 0 false): 92ms
+Total execution time rollbackTest(300 0 ): 1504ms
+Total execution time rollbackTest(300 0 ): 1576ms
+Total execution time rollbackTest(300 0 ): 1549ms
+Total execution time rollbackTest(300 0 ): 1484ms
+Total execution time rollbackTest(300 0 ): 1623ms
+Total execution time rollbackTest(300 10 ): 1501ms
+Total execution time rollbackTest(300 10 ): 1636ms
+Total execution time rollbackTest(300 100 ): 1439ms
+Total execution time rollbackTest(300 10 ): 1464ms
+Total execution time rollbackTest(300 0 ): 1566ms
+Total execution time rollbackTest(300 0 ): 1435ms
+Total execution time OCT mixed test: 36138ms
+Test run 1
+Total execution time simpleRollbackTest(300 0 false): 135ms
+Total execution time simpleRollbackTest(300 0 true): 1095ms
+Total execution time simpleRollbackTest(300 0 false): 98ms
+Total execution time simpleRollbackTest(300 0 true): 1434ms
+Total execution time simpleRollbackTest(300 0 true): 1198ms
+Total execution time simpleRollbackTest(300 0 true): 1219ms
+Total execution time simpleRollbackTest(300 2 true): 1700ms
+Total execution time simpleRollbackTest(300 2 true): 1810ms
+Total execution time simpleRollbackTest(300 2 true): 2202ms
+Total execution time simpleRollbackTest(300 10 true): 1284ms
+Total execution time simpleRollbackTest(300 100 true): 1232ms
+Total execution time simpleRollbackTest(300 50 true): 1255ms
+Total execution time simpleRollbackTest(300 0 true): 1568ms
+Total execution time simpleRollbackTest(300 0 true): 1189ms
+Total execution time simpleRollbackTest(300 0 true): 1213ms
+Total execution time simpleRollbackTest(300 0 true): 1600ms
+Total execution time simpleRollbackTest(300 0 false): 95ms
+Total execution time rollbackTest(300 0 ): 1445ms
+Total execution time rollbackTest(300 0 ): 1529ms
+Total execution time rollbackTest(300 0 ): 1431ms
+Total execution time rollbackTest(300 0 ): 1218ms
+Total execution time rollbackTest(300 0 ): 1544ms
+Total execution time rollbackTest(300 10 ): 1428ms
+Total execution time rollbackTest(300 10 ): 1304ms
+Total execution time rollbackTest(300 100 ): 1703ms
+Total execution time rollbackTest(300 10 ): 1429ms
+Total execution time rollbackTest(300 0 ): 1561ms
+Total execution time rollbackTest(300 0 ): 1400ms
+Total execution time OCT mixed test: 36325ms
+Test run 2
+Total execution time simpleRollbackTest(300 0 false): 82ms
+Total execution time simpleRollbackTest(300 0 true): 1216ms
+Total execution time simpleRollbackTest(300 0 false): 83ms
+Total execution time simpleRollbackTest(300 0 true): 1194ms
+Total execution time simpleRollbackTest(300 0 true): 1228ms
+Total execution time simpleRollbackTest(300 0 true): 1348ms
+Total execution time simpleRollbackTest(300 2 true): 1741ms
+Total execution time simpleRollbackTest(300 2 true): 1729ms
+Total execution time simpleRollbackTest(300 2 true): 1684ms
+Total execution time simpleRollbackTest(300 10 true): 1336ms
+Total execution time simpleRollbackTest(300 100 true): 1598ms
+Total execution time simpleRollbackTest(300 50 true): 1225ms
+Total execution time simpleRollbackTest(300 0 true): 1565ms
+Total execution time simpleRollbackTest(300 0 true): 1223ms
+Total execution time simpleRollbackTest(300 0 true): 1204ms
+Total execution time simpleRollbackTest(300 0 true): 1190ms
+Total execution time simpleRollbackTest(300 0 false): 90ms
+Total execution time rollbackTest(300 0 ): 1464ms
+Total execution time rollbackTest(300 0 ): 1709ms
+Total execution time rollbackTest(300 0 ): 1737ms
+Total execution time rollbackTest(300 0 ): 1421ms
+Total execution time rollbackTest(300 0 ): 1500ms
+Total execution time rollbackTest(300 10 ): 1399ms
+Total execution time rollbackTest(300 10 ): 1467ms
+Total execution time rollbackTest(300 100 ): 1720ms
+Total execution time rollbackTest(300 10 ): 1422ms
+Total execution time rollbackTest(300 0 ): 1475ms
+Total execution time rollbackTest(300 0 ): 1547ms
+Total execution time OCT mixed test: 36601ms
+Mean time of octMixed3: 36354
+
+
+
+Test run 0
+Total execution time simpleRollbackTest(182 0 false): 53ms
+Total execution time simpleRollbackTest(182 0 false): 62ms
+Total execution time simpleRollbackTest(182 0 false): 62ms
+Total execution time simpleRollbackTest(182 0 false): 60ms
+Total execution time simpleRollbackTest(182 0 false): 62ms
+Total execution time simpleRollbackTest(182 0 true): 737ms
+Total execution time simpleRollbackTest(182 0 true): 742ms
+Total execution time simpleRollbackTest(182 0 true): 724ms
+Total execution time simpleRollbackTest(182 0 false): 48ms
+Total execution time simpleRollbackTest(182 2 true): 1110ms
+Total execution time simpleRollbackTest(182 0 true): 917ms
+Total execution time simpleRollbackTest(182 100 true): 750ms
+Total execution time simpleRollbackTest(182 50 true): 775ms
+Total execution time simpleRollbackTest(182 10 true): 1014ms
+Total execution time simpleRollbackTest(182 2 true): 1070ms
+Total execution time simpleRollbackTest(182 2 true): 1034ms
+Total execution time simpleRollbackTest(182 2 true): 1097ms
+Total execution time simpleRollbackTest(182 0 true): 930ms
+Total execution time simpleRollbackTest(182 0 true): 731ms
+Total execution time simpleRollbackTest(182 0 false): 58ms
+Total execution time OCT easier test: 12038ms
+Test run 1
+Total execution time simpleRollbackTest(182 0 false): 64ms
+Total execution time simpleRollbackTest(182 0 false): 58ms
+Total execution time simpleRollbackTest(182 0 false): 66ms
+Total execution time simpleRollbackTest(182 0 false): 49ms
+Total execution time simpleRollbackTest(182 0 false): 59ms
+Total execution time simpleRollbackTest(182 0 true): 739ms
+Total execution time simpleRollbackTest(182 0 true): 959ms
+Total execution time simpleRollbackTest(182 0 true): 735ms
+Total execution time simpleRollbackTest(182 0 false): 53ms
+Total execution time simpleRollbackTest(182 2 true): 1046ms
+Total execution time simpleRollbackTest(182 0 true): 741ms
+Total execution time simpleRollbackTest(182 100 true): 956ms
+Total execution time simpleRollbackTest(182 50 true): 742ms
+Total execution time simpleRollbackTest(182 10 true): 810ms
+Total execution time simpleRollbackTest(182 2 true): 1142ms
+Total execution time simpleRollbackTest(182 2 true): 1036ms
+Total execution time simpleRollbackTest(182 2 true): 1087ms
+Total execution time simpleRollbackTest(182 0 true): 742ms
+Total execution time simpleRollbackTest(182 0 true): 743ms
+Total execution time simpleRollbackTest(182 0 false): 49ms
+Total execution time OCT easier test: 11877ms
+Test run 2
+Total execution time simpleRollbackTest(182 0 false): 64ms
+Total execution time simpleRollbackTest(182 0 false): 56ms
+Total execution time simpleRollbackTest(182 0 false): 62ms
+Total execution time simpleRollbackTest(182 0 false): 62ms
+Total execution time simpleRollbackTest(182 0 false): 52ms
+Total execution time simpleRollbackTest(182 0 true): 936ms
+Total execution time simpleRollbackTest(182 0 true): 738ms
+Total execution time simpleRollbackTest(182 0 true): 762ms
+Total execution time simpleRollbackTest(182 0 false): 55ms
+Total execution time simpleRollbackTest(182 2 true): 1207ms
+Total execution time simpleRollbackTest(182 0 true): 729ms
+Total execution time simpleRollbackTest(182 100 true): 759ms
+Total execution time simpleRollbackTest(182 50 true): 751ms
+Total execution time simpleRollbackTest(182 10 true): 805ms
+Total execution time simpleRollbackTest(182 2 true): 1168ms
+Total execution time simpleRollbackTest(182 2 true): 1012ms
+Total execution time simpleRollbackTest(182 2 true): 1065ms
+Total execution time simpleRollbackTest(182 0 true): 756ms
+Total execution time simpleRollbackTest(182 0 true): 732ms
+Total execution time simpleRollbackTest(182 0 false): 58ms
+Total execution time OCT easier test: 11832ms
+Mean time of octEasier3: 11915
+
+
+
+Test run 0
+Total execution time rollbackTest(182 0 ): 961ms
+Total execution time rollbackTest(182 0 ): 870ms
+Total execution time rollbackTest(182 0 ): 884ms
+Total execution time rollbackTest(182 0 ): 883ms
+Total execution time rollbackTest(182 0 ): 857ms
+Total execution time rollbackTest(182 10 ): 882ms
+Total execution time rollbackTest(182 0 ): 895ms
+Total execution time rollbackTest(182 0 ): 867ms
+Total execution time rollbackTest(182 0 ): 901ms
+Total execution time rollbackTest(182 0 ): 857ms
+Total execution time rollbackTest(182 100 ): 874ms
+Total execution time rollbackTest(182 10 ): 892ms
+Total execution time rollbackTest(182 10 ): 885ms
+Total execution time rollbackTest(182 100 ): 859ms
+Total execution time rollbackTest(182 10 ): 889ms
+Total execution time rollbackTest(182 0 ): 871ms
+Total execution time rollbackTest(182 0 ): 865ms
+Total execution time rollbackTest(182 0 ): 867ms
+Total execution time rollbackTest(182 0 ): 881ms
+Total execution time rollbackTest(182 0 ): 893ms
+Total execution time OCT harder test: 17638ms
+Test run 1
+Total execution time rollbackTest(182 0 ): 876ms
+Total execution time rollbackTest(182 0 ): 882ms
+Total execution time rollbackTest(182 0 ): 892ms
+Total execution time rollbackTest(182 0 ): 886ms
+Total execution time rollbackTest(182 0 ): 885ms
+Total execution time rollbackTest(182 10 ): 864ms
+Total execution time rollbackTest(182 0 ): 882ms
+Total execution time rollbackTest(182 0 ): 1081ms
+Total execution time rollbackTest(182 0 ): 870ms
+Total execution time rollbackTest(182 0 ): 914ms
+Total execution time rollbackTest(182 100 ): 1040ms
+Total execution time rollbackTest(182 10 ): 866ms
+Total execution time rollbackTest(182 10 ): 933ms
+Total execution time rollbackTest(182 100 ): 871ms
+Total execution time rollbackTest(182 10 ): 874ms
+Total execution time rollbackTest(182 0 ): 1063ms
+Total execution time rollbackTest(182 0 ): 862ms
+Total execution time rollbackTest(182 0 ): 924ms
+Total execution time rollbackTest(182 0 ): 1096ms
+Total execution time rollbackTest(182 0 ): 877ms
+Total execution time OCT harder test: 18444ms
+Test run 2
+Total execution time rollbackTest(182 0 ): 948ms
+Total execution time rollbackTest(182 0 ): 865ms
+Total execution time rollbackTest(182 0 ): 919ms
+Total execution time rollbackTest(182 0 ): 1082ms
+Total execution time rollbackTest(182 0 ): 859ms
+Total execution time rollbackTest(182 10 ): 904ms
+Total execution time rollbackTest(182 0 ): 1041ms
+Total execution time rollbackTest(182 0 ): 892ms
+Total execution time rollbackTest(182 0 ): 965ms
+Total execution time rollbackTest(182 0 ): 899ms
+Total execution time rollbackTest(182 100 ): 884ms
+Total execution time rollbackTest(182 10 ): 882ms
+Total execution time rollbackTest(182 10 ): 866ms
+Total execution time rollbackTest(182 100 ): 858ms
+Total execution time rollbackTest(182 10 ): 901ms
+Total execution time rollbackTest(182 0 ): 859ms
+Total execution time rollbackTest(182 0 ): 883ms
+Total execution time rollbackTest(182 0 ): 863ms
+Total execution time rollbackTest(182 0 ): 872ms
+Total execution time rollbackTest(182 0 ): 869ms
+Total execution time OCT harder test: 18114ms
+Mean time of octHarder3: 18065
+
+
+

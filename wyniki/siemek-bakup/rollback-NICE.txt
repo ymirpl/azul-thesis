@@ -1,3 +1,5 @@
+ITERATIONS: 1000 -- maybe
+
 Total execution time simpleRollbackTest(300 0 false): 682ms
 Total execution time simpleRollbackTest(300 0 true): 66314ms
 Total execution time simpleRollbackTest(300 0 false): 328ms
