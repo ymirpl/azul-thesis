@@ -1,0 +1,8 @@
+Total execution time optimize(193 1.0E-8 false): 36559ms
+Solution found:-0.15972458775982365 for 0.36787942190345974
+Total execution time optimize(193 1.0E-8 false): 36425ms
+Solution found:-0.15972458775982365 for 0.36787942190345974
+Total execution time optimize(193 1.0E-8 true): 22477364ms
+Solution found:-0.15972458775982365 for 0.36787942190345974
+Total execution time optimize(193 1.0E-8 true): 22428001ms
+Solution found:-0.15972458775982365 for 0.36787942190345974
