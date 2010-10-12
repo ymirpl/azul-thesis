@@ -10,6 +10,7 @@ public class ConcurrencyTestWorker implements Runnable {
 	private double step = 0;
 	private sharedData bestSolution;
 	private boolean sync = false;
+	private boolean countWrite = false;
 
 	public ConcurrencyTestWorker(long iterations) {
 		this.iterations = iterations;
@@ -23,6 +24,12 @@ public class ConcurrencyTestWorker implements Runnable {
 		this.bestSolution = sd;
 		this.sync = sync;
 
+	}
+	
+	public ConcurrencyTestWorker(sharedData sd, double start, double stop,
+			double step, boolean sync, boolean countWrite) {
+	this(sd, start, stop, step, sync);
+	this.countWrite = countWrite;
 	}
 
 	private double function(double x) {
@@ -43,7 +50,10 @@ public class ConcurrencyTestWorker implements Runnable {
 			for (double x = start; x < stop; x += step) {
 				double out = function(x);
 				if (this.sync)
-					bestSolution.trySolution(out, x);
+					if(!this.countWrite)
+						bestSolution.trySolution(out, x);
+					else
+						bestSolution.trySolutionWithWriteCounter(out, x);
 				else {
 					if (out < solution) {
 						solution = out;

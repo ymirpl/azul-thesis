@@ -5,12 +5,16 @@ import org.thesis.azul.ConcurrencyTestThread;
 public class RunTests {
 	
 	public int ITERATIONS = 1000;
+
+	
 	
 	public static Thread[] threads;
 	
 	public class sharedData {
 		private double data = 0;
 		public double x = 0;
+		public long readCounter = 0;
+		public long writeCounter = 0;
 
 		public synchronized double loop(int iterations, boolean set, boolean read) {
 			int cc = 0;
@@ -36,6 +40,15 @@ public class RunTests {
 		
 		public synchronized void trySolution(double sol, double x) {
 			if (sol < this.data) {
+				this.data = sol;
+				this.x = x;
+			}
+		}
+		
+		public synchronized void trySolutionWithWriteCounter(double sol, double x) {
+			this.readCounter++;
+			if (sol < this.data) {
+				this.writeCounter++;
 				this.data = sol;
 				this.x = x;
 			}
@@ -146,26 +159,26 @@ public class RunTests {
 		System.out.println("Mixed easier iters: "+ ITERATIONS);
 		long startTime = System.currentTimeMillis();
 
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, false);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 100, true);
-		simpleRollbackTest(182, 50, true);
-		simpleRollbackTest(182, 10, true);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 2, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, true);
-		simpleRollbackTest(182, 0, false);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 0, false);
+		simpleRollbackTest(192, 2, true);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 100, true);
+		simpleRollbackTest(192, 50, true);
+		simpleRollbackTest(192, 10, true);
+		simpleRollbackTest(192, 2, true);
+		simpleRollbackTest(192, 2, true);
+		simpleRollbackTest(192, 2, true);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 0, true);
+		simpleRollbackTest(192, 0, false);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Total execution time OCT easier test: " + (endTime - startTime) + "ms");
@@ -176,26 +189,26 @@ public class RunTests {
 		System.out.println("Mixed harder iters: "+ ITERATIONS);
 		long startTime = System.currentTimeMillis();
 
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 10);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 100);
-		rollbackTest(182, 10);
-		rollbackTest(182, 10);
-		rollbackTest(182, 100);
-		rollbackTest(182, 10);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
-		rollbackTest(182, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 10);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 100);
+		rollbackTest(192, 10);
+		rollbackTest(192, 10);
+		rollbackTest(192, 100);
+		rollbackTest(192, 10);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
+		rollbackTest(192, 0);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Total execution time OCT harder test: " + (endTime - startTime) + "ms");
@@ -264,76 +277,134 @@ public class RunTests {
 	}
 	
 	
-	public void divideAndConquerTest() throws InterruptedException {
-		divideAndConquer(2, 0.000000001, false);
-		divideAndConquer(123, 0.000000001, false);
+	public long divideAndConquerCountWrite(int THREAD_NO, double step) throws InterruptedException {
+		sharedData bestS = new sharedData();
+		bestS.setData(Double.MAX_VALUE);
 		
-		divideAndConquer(2, 0.000000001, true);
-		divideAndConquer(123, 0.000000001, true);
+		double min = -6;
+		double max = 6;
+		
+		double shard = (max-min) / THREAD_NO; 
+		
+		
+		threads = new Thread[THREAD_NO];
+		
+		long startTime = System.currentTimeMillis();
+		
+		for (int j = 0; j < threads.length; j++) {
+
+			threads[j] = new Thread(new ConcurrencyTestWorker(bestS, min+j*shard, min+(j+1)*shard, step, true, true));
+			threads[j].start();
+		}
+		
+		for (int j = 0; j < threads.length; j++) {
+			threads[j].join();
+		}
+		long endTime = System.currentTimeMillis();
+		long resutl = endTime - startTime;
+		System.out.println("Total execution time optimize(" + THREAD_NO + " " + step + " true, countWrite): " + (endTime - startTime) + "ms");
+		System.out.println("Solution found:" + bestS.getData() + " for " + bestS.x );
+		System.out.println("Writes : " + (bestS.writeCounter/(bestS.writeCounter+bestS.readCounter))*100);
+		return resutl;
+	}
+	
+	
+	public void divideAndConquerTest() throws InterruptedException {
+/*
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, true);
+		
+		divideAndConquer(3, 0.00000001, false);
+		divideAndConquer(192, 0.00000001, false);
+		
+		divideAndConquer(192, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, false);
+*/		
+		divideAndConquer(193, 0.00000001, false);
+		divideAndConquer(193, 0.00000001, false);
+		divideAndConquer(193, 0.00000001, true);
+		divideAndConquer(193, 0.00000001, true);
+	}
+	
+	public void divideAndConquerTestAthlon() throws InterruptedException {
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(192, 0.00000001, true);
+		
+		divideAndConquer(3, 0.00000001, false);
+		divideAndConquer(192, 0.00000001, false);
+		
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(3, 0.00000001, true);
+		divideAndConquer(3, 0.00000001, false);
+		divideAndConquer(3, 0.00000001, false);
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
-		
+
 		RunTests tests = new RunTests();
+						
+		int runs = 3;
 		
-//		int runs = 3;
-//		
-//    	long sum = 0;
-//    	
-//    	tests.ITERATIONS = 1000;
-//    	sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.octTestMixed();
-//		}
-//		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
-//
-//		
-//		tests.ITERATIONS = 10000;
-//    	sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.octTestMixed();
-//		}
-//		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
-//
-//		
-//		tests.ITERATIONS = 100000;
-//    	sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.octTestMixed();
-//		}
-//		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
-//
-//		
-//		tests.ITERATIONS = 1000;
-//		sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.octTestEasier();
-//		}
-//		System.out.println("Mean time of octEasier" + runs + ": " + sum/runs + "\n\n\n");
-//
-//		sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.octTestHarder();
-//		}
-//		System.out.println("Mean time of octHarder" + runs + ": " + sum/runs + "\n\n\n");
-		
-//		sum = 0;
-//		for (int i = 0; i < runs; i++) {
-//			System.out.println("Test run " + i);
-//			sum += tests.testSpawning();
-//		}
-//		System.out.println("Mean time of spawning" + runs + ": " + sum/runs + "\n\n\n");
-//		
-		tests.divideAndConquerTest();
+    	long sum = 0;
+/*  	
+    	tests.ITERATIONS = 1000;
+    	sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestMixed();
+		}
+		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
 
 		
+		tests.ITERATIONS = 10000;
+    	sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestMixed();
+		}
+		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
+
 		
+		tests.ITERATIONS = 100000;
+    	sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestMixed();
+		}
+		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
+
 		
+		tests.ITERATIONS = 1000;
+		sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestEasier();
+		}
+		System.out.println("Mean time of octEasier" + runs + ": " + sum/runs + "\n\n\n");
+
+		sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.octTestHarder();
+		}
+		System.out.println("Mean time of octHarder" + runs + ": " + sum/runs + "\n\n\n");
+		
+		sum = 0;
+		for (int i = 0; i < runs; i++) {
+			System.out.println("Test run " + i);
+			sum += tests.testSpawning();
+		}
+		System.out.println("Mean time of spawning" + runs + ": " + sum/runs + "\n\n\n");
+*/
+//		tests.divideAndConquerTest();
+    	tests.divideAndConquerCountWrite(193, 0.00000001);
+    	
+
 	}
 
 }
