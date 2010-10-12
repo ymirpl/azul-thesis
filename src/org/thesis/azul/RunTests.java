@@ -304,7 +304,8 @@ public class RunTests {
 		long resutl = endTime - startTime;
 		System.out.println("Total execution time optimize(" + THREAD_NO + " " + step + " true, countWrite): " + (endTime - startTime) + "ms");
 		System.out.println("Solution found:" + bestS.getData() + " for " + bestS.x );
-		System.out.println("Writes : " + (bestS.writeCounter/(bestS.writeCounter+bestS.readCounter))*100);
+		double writesPercent = ((double) bestS.writeCounter/ (double) bestS.readCounter)*100.0;
+		System.out.println("Writes : " + writesPercent);
 		return resutl;
 	}
 	

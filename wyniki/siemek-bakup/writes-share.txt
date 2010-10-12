@@ -1,0 +1,4 @@
+Total execution time optimize(193 1.0E-8 true, countWrite): 298931ms
+Solution found:-0.15972458775982368 for 0.36787943190345973
+Writes : 0.25450339948768724
+
