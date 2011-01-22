@@ -2,6 +2,11 @@ package org.thesis.azul;
 
 import org.thesis.azul.ConcurrencyTestThread;
 
+/**
+ * Główna klasa skupiącja metody wykonujące testy porównawcze maszyny Azul i AMD. 
+ * @author Marcin Mincer
+ *
+ */
 public class RunTests {
 	
 	public int ITERATIONS = 1000;
@@ -10,12 +15,26 @@ public class RunTests {
 	
 	public static Thread[] threads;
 	
+	/**
+	 * Klasa reprezentuje pamięć współdzieloną. 
+	 * Wielodostęp jest realizowany przez semfory binarne (metody synchronizowane). 
+	 *
+	 */
 	public class sharedData {
 		private double data = 0;
 		public double x = 0;
 		public long readCounter = 0;
 		public long writeCounter = 0;
-
+		
+		/**
+		 * Pętla w której zachodzi czytanie i pisanie do pamięci współdzielonej, wykonywana wewnątrz sekcji krytycznej. 
+		 * Takie sposób wykonywania pętli wymusza konieczność dłuższego oczekiwania przez wątki na dostęp do sekcji krytycznej i ułatwia obserwację 
+		 * optymalizacji (lub jej braku) OTC. 
+		 * @param iterations liczba iteracji
+		 * @param set czy ustawiać
+		 * @param read czy pisać
+		 * @return
+		 */
 		public synchronized double loop(int iterations, boolean set, boolean read) {
 			int cc = 0;
 			while (cc != iterations) {
@@ -30,14 +49,28 @@ public class RunTests {
 			return 0;
 		}
 
+		/**
+		 * Getter współdzielonej pamięci
+		 * @return przeczytana liczba
+		 */
 		public synchronized double getData() {
 			return this.data;
 		}
 
+		/**
+		 * Setter współdzielonej pamięci
+		 * @param data liczba do wpisania
+		 */
 		public synchronized void setData(double data) {
 			this.data = data;
 		}
 		
+		/**
+		 * Metoda służy do wpisywanie znalezionego przez wątek workera rozwiązania do współdzielonej pamięci. 
+		 * Wartość zapisa jest zmieniana, jeżeli znalezione rozwiązanie jest lepsze od dotychczasowego. 
+		 * @param sol wartość optymalizowanej funkcji
+		 * @param x argument, dla którego funkcja osiąga tę wartość
+		 */
 		public synchronized void trySolution(double sol, double x) {
 			if (sol < this.data) {
 				this.data = sol;
@@ -45,6 +78,10 @@ public class RunTests {
 			}
 		}
 		
+		/**
+		 * Metda identyczna do trySolution z funkcją liczenia ilości faktycznych zapisów. 
+		 * @see trySolution
+		 */
 		public synchronized void trySolutionWithWriteCounter(double sol, double x) {
 			this.readCounter++;
 			if (sol < this.data) {
@@ -56,7 +93,12 @@ public class RunTests {
 	}
 	
 	
-	
+	/**
+	 * Test OTC, wersja prostsza, iteracje pętli wykonywane w osobnych wątkach
+	 * @param THREAD_NO liczba wątków
+	 * @param write_share udział wątków piszących (co który wątek)
+	 * @param read czy czytać
+	 */
 	public void simpleRollbackTest(int THREAD_NO, int write_share, boolean read)
 			throws InterruptedException {
 
@@ -85,6 +127,11 @@ public class RunTests {
 
 	}
 	
+	/**
+	 * Test OTC. Wersja w której iteracje są wykonywane wewnątrz synchronizowanej metody. 
+	 * @param THREAD_NO liczba wątków
+	 * @param read_write_share udział wątków czytających i piszących (co który wątek)
+	 */
 	public void rollbackTest(int THREAD_NO, int read_write_share)
 			throws InterruptedException {
 
@@ -116,6 +163,13 @@ public class RunTests {
 
 	}
 	
+	/**
+	 * Test OTC wykorzystujący sformułowane wcześniej testy.
+	 * 
+	 * @see rollbackTest
+	 * @see simpleRollbackTest
+	 * @return czas wykonania [ms]
+	 */
 	public long octTestMixed() throws InterruptedException {
 		long startTime = System.currentTimeMillis();
 		
@@ -155,6 +209,11 @@ public class RunTests {
 		return endTime - startTime;
 	}
 	
+	/**
+	 * Test OTC wykorzystujący jedynie simpleRollbackTest z różnymi parametrami.
+	 * @see simpleRollbackTest 
+	 * @return czas wykonania [ms]
+	 */
 	public long octTestEasier() throws InterruptedException {
 		System.out.println("Mixed easier iters: "+ ITERATIONS);
 		long startTime = System.currentTimeMillis();
@@ -185,6 +244,11 @@ public class RunTests {
 		return endTime - startTime;
 	}
 	
+	/**
+	 * Test OTC wykorzystujący jedynie rollbackTest z różnymi parametrami.
+	 * @see rollbackTest 
+	 * @return czas wykonania [ms]
+	 */
 	public long octTestHarder() throws InterruptedException {
 		System.out.println("Mixed harder iters: "+ ITERATIONS);
 		long startTime = System.currentTimeMillis();
@@ -215,6 +279,12 @@ public class RunTests {
 		return endTime - startTime;
 	}
 	
+	/**
+	 * Metoda uruchamia współbieżnie zadaną liczbę wątków symulujących wykonywanie obliczeń. 
+	 * @param THREAD_NO liczba wątków
+	 * @param iterations liczba iteracji w wątku
+	 * @throws InterruptedException
+	 */
 	public void spawnThreads(int THREAD_NO, long iterations) throws InterruptedException {
 		threads = new Thread[THREAD_NO];
 
@@ -235,6 +305,11 @@ public class RunTests {
 
 	}
 	
+	/**
+	 * Test współbieżności dużej ilości wątków. 
+	 * @return czas wykonania [ms]
+	 * @throws InterruptedException
+	 */
 	public long testSpawning() throws InterruptedException {
 		long startTime = System.currentTimeMillis();
 
@@ -246,6 +321,14 @@ public class RunTests {
 		return endTime - startTime;
 	}
 	
+	/**
+	 * Test "dziel i zwyciężaj"
+	 * @param THREAD_NO liczba wątków
+	 * @param step wielkość kroku
+	 * @param sync wersja (a)synchroniczna
+	 * @return czas wykonania [ms]
+	 * @throws InterruptedException
+	 */
 	public long divideAndConquer(int THREAD_NO, double step, boolean sync) throws InterruptedException {
 		sharedData bestS = new sharedData();
 		bestS.setData(Double.MAX_VALUE);
@@ -270,13 +353,17 @@ public class RunTests {
 			threads[j].join();
 		}
 		long endTime = System.currentTimeMillis();
-		long resutl = endTime - startTime;
+		long result = endTime - startTime;
 		System.out.println("Total execution time optimize(" + THREAD_NO + " " + step + " " + sync +"): " + (endTime - startTime) + "ms");
 		System.out.println("Solution found:" + bestS.getData() + " for " + bestS.x );
-		return resutl;
+		return result;
 	}
 	
 	
+	/**
+	 * Wersja testu "dziel i zwyciężaj" z liczeniem faktycznych zapisów do pamięci współdzielonej
+	 * @see divideAndConquer
+	 */
 	public long divideAndConquerCountWrite(int THREAD_NO, double step) throws InterruptedException {
 		sharedData bestS = new sharedData();
 		bestS.setData(Double.MAX_VALUE);
@@ -309,9 +396,12 @@ public class RunTests {
 		return resutl;
 	}
 	
-	
+	/**
+	 * Test wykorzystania maszyny Azul do faktycznych celów badawczych (minimalizacja metodą brutalną). 
+	 *
+	 */
 	public void divideAndConquerTest() throws InterruptedException {
-/*
+
 		divideAndConquer(3, 0.00000001, true);
 		divideAndConquer(192, 0.00000001, true);
 		
@@ -323,11 +413,22 @@ public class RunTests {
 		divideAndConquer(192, 0.00000001, true);
 		divideAndConquer(192, 0.00000001, true);
 		divideAndConquer(192, 0.00000001, false);
-*/		
+		
 		divideAndConquer(193, 0.00000001, false);
 		divideAndConquer(193, 0.00000001, false);
 		divideAndConquer(193, 0.00000001, true);
 		divideAndConquer(193, 0.00000001, true);
+	}
+	
+	/**
+	 * Poszukiwanie optymalnej liczby wątków wykonujących zadanie na maszynie Azul.
+	 * Za optymalną uznaje się liczbę wątków, którym wykonanie zadania zajmuje najkrócej.  
+	 * @throws InterruptedException
+	 */
+	public void divideAndConquerMinimumSearchTest() throws InterruptedException {
+		for (int i = 3; i <= 193; i += 10)
+			divideAndConquer(i, 0.00000001, true);
+		
 	}
 	
 	public void divideAndConquerTestAthlon() throws InterruptedException {
@@ -352,14 +453,14 @@ public class RunTests {
 		int runs = 3;
 		
     	long sum = 0;
-/*  	
+  	
     	tests.ITERATIONS = 1000;
     	sum = 0;
 		for (int i = 0; i < runs; i++) {
 			System.out.println("Test run " + i);
 			sum += tests.octTestMixed();
 		}
-		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
+		System.out.println("Średni czas wykonania octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
 
 		
 		tests.ITERATIONS = 10000;
@@ -368,7 +469,7 @@ public class RunTests {
 			System.out.println("Test run " + i);
 			sum += tests.octTestMixed();
 		}
-		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
+		System.out.println("Średni czas wykonania octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
 
 		
 		tests.ITERATIONS = 100000;
@@ -377,7 +478,7 @@ public class RunTests {
 			System.out.println("Test run " + i);
 			sum += tests.octTestMixed();
 		}
-		System.out.println("Mean time of octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
+		System.out.println("Średni czas wykonania octMixed " + runs + " " + tests.ITERATIONS +":  "+ sum/runs + "\n\n\n");
 
 		
 		tests.ITERATIONS = 1000;
@@ -386,24 +487,25 @@ public class RunTests {
 			System.out.println("Test run " + i);
 			sum += tests.octTestEasier();
 		}
-		System.out.println("Mean time of octEasier" + runs + ": " + sum/runs + "\n\n\n");
+		System.out.println("Średni czas wykonania octEasier" + runs + ": " + sum/runs + "\n\n\n");
 
 		sum = 0;
 		for (int i = 0; i < runs; i++) {
 			System.out.println("Test run " + i);
 			sum += tests.octTestHarder();
 		}
-		System.out.println("Mean time of octHarder" + runs + ": " + sum/runs + "\n\n\n");
+		System.out.println("Średni czas wykonania octHarder" + runs + ": " + sum/runs + "\n\n\n");
 		
 		sum = 0;
 		for (int i = 0; i < runs; i++) {
 			System.out.println("Test run " + i);
 			sum += tests.testSpawning();
 		}
-		System.out.println("Mean time of spawning" + runs + ": " + sum/runs + "\n\n\n");
-*/
-//		tests.divideAndConquerTest();
+		System.out.println("Średni czas wykonania spawning" + runs + ": " + sum/runs + "\n\n\n");
+
+		tests.divideAndConquerTest();
     	tests.divideAndConquerCountWrite(193, 0.00000001);
+    	tests.divideAndConquerMinimumSearchTest();
     	
 
 	}
