@@ -1,2 +1,2 @@
- java -Xmx2g -classpath /home/mmincer/eclipse/azul-thesis/bin org.thesis.azul.RunTests > MEGA_TEST3-amd.txt
-
+Uruchamianie:
+java -jar ./bin/azul.jar > out.txt

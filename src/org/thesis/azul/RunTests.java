@@ -505,7 +505,7 @@ public class RunTests {
 
 		tests.divideAndConquerTest();
     	tests.divideAndConquerCountWrite(193, 0.00000001);
-    	tests.divideAndConquerMinimumSearchTest();
+//    	tests.divideAndConquerMinimumSearchTest();
     	
 
 	}
